@@ -1,0 +1,30 @@
+# Satark .gitignore - Phase 1 Finalized
+# Python / Backend
+__pycache__/
+venv/
+env/
+*.pyc
+
+# Node / Frontend
+node_modules/
+build/
+dist/
+.eslintcache
+
+# Databases
+*.sqlite
+*.db
+
+# Environment Secrets
+.env
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# SATARK Cleanup
+query
+uploads/
+temp_uploads/
+make_fake_doc.py

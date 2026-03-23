@@ -1,0 +1,124 @@
+﻿[36mvite v5.4.21 [32mbuilding for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 3911 modules transformed.
+node.exe : [31mx[39m 
+Build failed in 7.46s
+At C:\Program Files\nod
+ejs\npx.ps1:29 char:3
++   & $NODE_EXE 
+$NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([31mx[39m B   
+ uild failed in 7.4    
+6s:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+[31merror during 
+build:
+[31msrc/App.tsx 
+(15:9): "neonCursor" 
+is not exported by "nod
+e_modules/cursor-effect
+s/dist/esm.js", 
+imported by 
+"src/App.tsx".[31m
+file: [36mC:/Users/Pri
+yanshu Patil/Documents/
+program01/satark/fronte
+nd/src/App.tsx:15:9[31
+m
+[33m
+13: import { useState, 
+useEffect } from 
+'react';
+14: // @ts-ignore
+15: import { 
+neonCursor } from 
+'cursor-effects';
+             ^
+16: 
+17: interface 
+ProtectedRouteProps {
+[31m
+    at getRollupError (
+file:///C:/Users/Priyan
+shu%20Patil/Documents/p
+rogram01/satark/fronten
+d/node_modules/rollup/d
+ist/es/shared/parseAst.
+js:402:41)
+    at error (file:///C
+:/Users/Priyanshu%20Pat
+il/Documents/program01/
+satark/frontend/node_mo
+dules/rollup/dist/es/sh
+ared/parseAst.js:398:42
+)
+    at Module.error (fi
+le:///C:/Users/Priyansh
+u%20Patil/Documents/pro
+gram01/satark/frontend/
+node_modules/rollup/dis
+t/es/shared/node-entry.
+js:17040:16)
+    at 
+Module.traceVariable (f
+ile:///C:/Users/Priyans
+hu%20Patil/Documents/pr
+ogram01/satark/frontend
+/node_modules/rollup/di
+st/es/shared/node-entry
+.js:17452:29)
+    at ModuleScope.find
+Variable (file:///C:/Us
+ers/Priyanshu%20Patil/D
+ocuments/program01/sata
+rk/frontend/node_module
+s/rollup/dist/es/shared
+/node-entry.js:15070:39
+)
+    at ReturnValueScope
+.findVariable (file:///
+C:/Users/Priyanshu%20Pa
+til/Documents/program01
+/satark/frontend/node_m
+odules/rollup/dist/es/s
+hared/node-entry.js:567
+3:38)
+    at FunctionBodyScop
+e.findVariable (file://
+/C:/Users/Priyanshu%20P
+atil/Documents/program0
+1/satark/frontend/node_
+modules/rollup/dist/es/
+shared/node-entry.js:56
+73:38)
+    at ReturnValueScope
+.findVariable (file:///
+C:/Users/Priyanshu%20Pa
+til/Documents/program01
+/satark/frontend/node_m
+odules/rollup/dist/es/s
+hared/node-entry.js:567
+3:38)
+    at FunctionBodyScop
+e.findVariable (file://
+/C:/Users/Priyanshu%20P
+atil/Documents/program0
+1/satark/frontend/node_
+modules/rollup/dist/es/
+shared/node-entry.js:56
+73:38)
+    at Identifier.bind 
+(file:///C:/Users/Priya
+nshu%20Patil/Documents/
+program01/satark/fronte
+nd/node_modules/rollup/
+dist/es/shared/node-ent
+ry.js:5447:40)[39m

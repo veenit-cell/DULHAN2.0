@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - "7474:7474" # Browser interface
+      - "7687:7687" # Bolt protocol for Python driver
+    environment:
+      - NEO4J_AUTH=neo4j/password
+    volumes:
+      - neo4j_data:/data
+
+volumes:
+  neo4j_data:

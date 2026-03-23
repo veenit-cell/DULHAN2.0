@@ -1,0 +1,55 @@
+SATARK B2B ANALYST WORKSPACE - EXECUTION GUIDE (PHASE 1)
+=====================================================
+
+PREREQUISITES:
+- Python 3.10+ (venv recommended)
+- Node.js & npm (for Frontend)
+- Redis Server (Running on localhost:6379)
+- Neo4j Desktop/Server (Running on bolt://localhost:7687, default user: neo4j, pass: password)
+- SQLite (Local file: fintech_threat_db.sqlite)
+
+STEP 1: INITIALIZE CORE ONTOLOGY & REAL-TIME GRAPH (ENTERPRISE SCALE)
+---------------------------------------------------------------------
+Command: python generate_threat_network.py
+Effect: 
+- Initializes SQLite tables for Institutional Auth (RBAC included).
+- Seeds 5,000 normal account nodes and 15,000 baseline transactions.
+- Injects 3 Precise Fraud Topologies (Smurfing Hub, Tarjan Cycle, Velocity Burst).
+- Creates Database Indexes on Account IDs and Timestamps for sub-second retrieval.
+
+STEP 2: START REDIS BROKER (VELOCITY & QUEUE)
+---------------------------------------------
+Command (Docker): docker run -d -p 6379:6379 redis
+Command (Manual): redis-server
+Effect: Initializes the primary transport for Celery tasks and the velocity counter cache used for burst detection.
+
+STEP 3: ACTIVATE NEURAL WORKER (CELERY)
+---------------------------------------
+Command: celery -A tasks worker --loglevel=info -P gevent
+Effect: Starts the background analysis engine for HMAC validation, Tarjan SCC cycle detection, Isolation Forest scoring, and Redis velocity auditing.
+
+STEP 4: LAUNCH THREAT GATEWAY (BACKEND)
+---------------------------------------
+Command: uvicorn main:app --reload
+Effect: Exposes the Neural API on http://localhost:8000. Facilitates the Bank-Node Authentication flow.
+
+STEP 5: RUN B2B ANALYST WORKSPACE (FRONTEND)
+--------------------------------------------
+Command: cd frontend && npm run dev
+Effect: Launches the premium Dashbord on http://localhost:5173 featuring 3D Visualizers and Compliance reports.
+
+STEP 6: INJECT DYNAMIC MULTI-PATTERN THREATS (OPTIONAL)
+-------------------------------------------------------
+Command: python inject_demo_anomaly.py
+Effect: Programmatically injects a rich set of fraud patterns:
+- Smurfing Hub (21 nodes funneling capital)
+- Tarjan Cycles (10-node circular money laundering)
+- Velocity Bursts (1 sender hitting 15 recipients rapidly)
+
+DEFAULT CREDENTIALS:
+- Institution ID: BNK-HDFC
+- Password: password123
+
+=====================================================
+SECURITY: HMAC-SHA256 active. Zero-PII masking enabled.
+=====================================================

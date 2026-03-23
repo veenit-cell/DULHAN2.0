@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Application Portal</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass-container {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #8c9eff;
+            box-shadow: 0 0 0 2px rgba(140, 158, 255, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #4a6ee0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #3a5bcf;
+        }
+
+        button:disabled {
+            background: #9faee5;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #2e7d32;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #c62828;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-text {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="glass-container">
+    <h2>Institutional Transaction Upload</h2>
+    <form id="applicationForm">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="John Doe">
+        </div>
+        
+        <div class="form-group">
+            <label for="aadhaar_id">Aadhaar ID</label>
+            <input type="text" id="aadhaar_id" name="aadhaar_id" required placeholder="XXXX-XXXX-XXXX">
+        </div>
+        
+        <div class="form-group">
+            <label for="stated_income">Stated Annual Income (INR)</label>
+            <input type="number" id="stated_income" name="stated_income" required placeholder="45000">
+        </div>
+        
+        <div class="form-group">
+            <label for="bank_account">Bank Account Number</label>
+            <input type="text" id="bank_account" name="bank_account" required placeholder="000123456789">
+        </div>
+
+        <div class="form-group">
+            <label for="rto_vehicle_reg_number">Vehicle Registration Number (If Any)</label>
+            <input type="text" id="rto_vehicle_reg_number" name="rto_vehicle_reg_number" placeholder="MH-01-AB-1234">
+        </div>
+        
+        <div class="form-group">
+            <label for="income_certificate">Upload Income Certificate (Image)</label>
+            <input type="file" id="income_certificate" name="income_certificate" accept="image/*" required>
+        </div>
+
+        <button type="submit" id="submitBtn">
+            <span class="btn-text">Submit Application</span>
+            <div class="spinner"></div>
+        </button>
+    </form>
+    
+    <div id="statusMessage" class="message"></div>
+</div>
+
+<script>
+document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.querySelector('.btn-text');
+    const spinner = document.querySelector('.spinner');
+    const statusMessage = document.getElementById('statusMessage');
+    
+    // UI state loading
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    spinner.style.display = 'block';
+    statusMessage.style.display = 'none';
+    statusMessage.className = 'message';
+    
+    // Prepare data
+    const payloadObject = {
+        name: document.getElementById('name').value,
+        aadhaar_id: document.getElementById('aadhaar_id').value,
+        stated_income: parseFloat(document.getElementById('stated_income').value),
+        bank_account: document.getElementById('bank_account').value,
+        rto_vehicle_reg_number: document.getElementById('rto_vehicle_reg_number').value || "None"
+    };
+    
+    const formData = new FormData();
+    formData.append('payload', JSON.stringify(payloadObject));
+    
+    const fileInput = document.getElementById('income_certificate');
+    if (fileInput.files.length > 0) {
+        formData.append('income_certificate', fileInput.files[0]);
+    }
+    
+    try {
+        const response = await fetch('http://localhost:8000/api/apply', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            statusMessage.textContent = 'Application submitted successfully! Tracking under processing.';
+            statusMessage.classList.add('success');
+            document.getElementById('applicationForm').reset();
+        } else {
+            statusMessage.textContent = result.detail || 'Failed to submit application.';
+            statusMessage.classList.add('error');
+        }
+    } catch (error) {
+        statusMessage.textContent = 'Network error: Could not connect to the server.';
+        statusMessage.classList.add('error');
+    } finally {
+        // UI state reset
+        statusMessage.style.display = 'block';
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline-block';
+        spinner.style.display = 'none';
+    }
+});
+</script>
+
+</body>
+</html>
