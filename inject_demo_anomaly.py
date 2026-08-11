@@ -8,7 +8,7 @@ import random
 from database import get_neo4j_session
 
 # Configuration
-SECRET_KEY = "SATARK_ENTERPRISE_SECRET_KEY_2026"
+SECRET_KEY = "DULHAN_ENTERPRISE_SECRET_KEY_2026"
 
 def make_token(account, key="MOCK_EPOCH_SECRET"):
     return hmac.new(key.encode(), str(account).encode(), hashlib.sha256).hexdigest()[:32]
@@ -18,7 +18,7 @@ def get_hmac(payload):
     return hmac.new(SECRET_KEY.encode(), data_str.encode(), hashlib.sha256).hexdigest()
 
 def inject():
-    print("--- SATARK MULTI-PATTERN ANOMALY INJECTOR ---")
+    print("--- DULHAN MULTI-PATTERN ANOMALY INJECTOR ---")
     neo = get_neo4j_session()
     
     # Clean old flagged demo data to avoid clutter

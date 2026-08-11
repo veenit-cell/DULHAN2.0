@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Building, Lock, Download, Zap, ShieldCheck } from 'lucide-react';
+import { Building, Lock, Download, Zap, ShieldCheck, AlertCircle } from 'lucide-react';
 
 const BankOnboarding = () => {
     const [step, setStep] = useState(1);
@@ -24,81 +24,81 @@ const BankOnboarding = () => {
     return (
         <div className="max-w-4xl mx-auto p-4">
             <div className="flex items-center gap-4 mb-10">
-                <div className="p-3 bg-[#006C67]/10 rounded-2xl">
-                    <Building className="w-8 h-8 text-[#006C67]" />
+                <div className="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-500/20">
+                    <Building className="w-8 h-8 text-cyan-400" />
                 </div>
                 <div>
-                    <h2 className="text-3xl font-black text-[#121212]">Bank Onboarding</h2>
-                    <p className="text-xs font-bold text-[#121212]/40 uppercase tracking-widest">Self-Serve Institutional Provisioning Portal</p>
+                    <h2 className="text-3xl font-black text-white">Bank Onboarding</h2>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Self-Serve Institutional Provisioning Portal</p>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                 {[1, 2, 3, 4].map((s) => (
-                    <div key={s} className={`h-1.5 rounded-full transition-all duration-500 ${step >= s ? 'bg-[#006C67]' : 'bg-[#121212]/10'}`}></div>
+                    <div key={s} className={`h-1.5 rounded-full transition-all duration-500 ${step >= s ? 'bg-gradient-to-r from-cyan-400 to-cyan-500' : 'bg-white/[0.06]'}`}></div>
                 ))}
             </div>
 
-            <div className="glass-panel p-10 min-h-[500px] flex flex-col relative overflow-hidden bg-white/40">
+            <div className="dark-glass p-10 min-h-[500px] flex flex-col relative overflow-hidden">
                 <AnimatePresence mode="wait">
                     {step === 1 && (
                         <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                            <h3 className="text-xl font-black text-[#121212]">Step 1: Configuration</h3>
+                            <h3 className="text-xl font-black text-white">Step 1: Configuration</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase text-[#121212]/40">Bank Name</label>
-                                    <input type="text" className="w-full bg-white/60 border border-[#121212]/10 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006C67]/40" placeholder="e.g. Global Trust Bank" />
+                                    <label className="text-[10px] font-black uppercase text-slate-500">Bank Name</label>
+                                    <input type="text" className="w-full bg-white/[0.04] border border-white/[0.08] p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500/30 text-white placeholder:text-slate-600 transition-all" placeholder="e.g. Global Trust Bank" />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase text-[#121212]/40">Institution ID</label>
-                                    <input type="text" className="w-full bg-white/60 border border-[#121212]/10 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006C67]/40" placeholder="e.g. GTB-INDIA-01" />
+                                    <label className="text-[10px] font-black uppercase text-slate-500">Institution ID</label>
+                                    <input type="text" className="w-full bg-white/[0.04] border border-white/[0.08] p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500/30 text-white placeholder:text-slate-600 transition-all" placeholder="e.g. GTB-INDIA-01" />
                                 </div>
                                 <div className="col-span-full space-y-2">
-                                    <label className="text-[10px] font-black uppercase text-[#121212]/40">Compliance Webhook URL</label>
-                                    <input type="url" className="w-full bg-white/60 border border-[#121212]/10 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006C67]/40" placeholder="https://api.yourbank.com/satark-alerts" />
+                                    <label className="text-[10px] font-black uppercase text-slate-500">Compliance Webhook URL</label>
+                                    <input type="url" className="w-full bg-white/[0.04] border border-white/[0.08] p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500/30 text-white placeholder:text-slate-600 transition-all" placeholder="https://api.yourbank.com/dulhan-alerts" />
                                 </div>
                             </div>
-                            <button onClick={() => setStep(2)} className="mt-8 px-8 py-4 bg-[#121212] text-white rounded-xl font-bold hover:bg-[#2a2a2a] transition shadow-xl">Continue to SDK</button>
+                            <button onClick={() => setStep(2)} className="mt-8 px-8 py-4 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/20 transition shadow-xl">Continue to SDK</button>
                         </motion.div>
                     )}
 
                     {step === 2 && (
                         <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                            <h3 className="text-xl font-black text-[#121212]">Step 2: SDK Delivery</h3>
-                            <div className="bg-[#121212] p-6 rounded-2xl font-mono text-sm text-green-400 border border-white/10 shadow-2xl">
-                                <p className="mb-2"><span className="text-white">$</span> pip install satark-edge-agent</p>
-                                <p className="text-white/40 italic"># Initialize edge agent on your on-premise hardware</p>
-                                <p className="mt-4"><span className="text-white">$</span> satark --init --node-id GTB-01</p>
+                            <h3 className="text-xl font-black text-white">Step 2: SDK Delivery</h3>
+                            <div className="bg-black/40 p-6 rounded-2xl font-mono text-sm text-cyan-400 border border-white/[0.06] shadow-2xl">
+                                <p className="mb-2"><span className="text-white">$</span> pip install dulhan-edge-agent</p>
+                                <p className="text-slate-600 italic"># Initialize edge agent on your on-premise hardware</p>
+                                <p className="mt-4"><span className="text-white">$</span> dulhan --init --node-id GTB-01</p>
                             </div>
                             <div className="flex gap-4">
-                                <button className="flex items-center gap-2 px-6 py-3 bg-white border border-[#121212]/10 rounded-xl font-bold text-sm hover:bg-gray-50 transition">
+                                <button className="flex items-center gap-2 px-6 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl font-bold text-sm text-slate-300 hover:bg-white/[0.08] transition">
                                     <Download className="w-4 h-4" /> Download SDK Bundle (.zip)
                                 </button>
-                                <button onClick={() => setStep(3)} className="px-8 py-3 bg-[#121212] text-white rounded-xl font-bold hover:bg-[#2a2a2a] transition">Provision Crypto</button>
+                                <button onClick={() => setStep(3)} className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/20 transition">Provision Crypto</button>
                             </div>
                         </motion.div>
                     )}
 
                     {step === 3 && (
                         <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6 text-center">
-                            <Lock className="w-16 h-16 text-[#E27C37] mx-auto mb-4" />
-                            <h3 className="text-xl font-black text-[#121212]">Step 3: Cryptographic Provisioning</h3>
-                            <p className="text-sm text-[#121212]/60 max-w-md mx-auto">Generate your institutional Epoch Key. This key is used for Zero-Knowledge PII masking at the edge.</p>
+                            <Lock className="w-16 h-16 text-[#FF4F00] mx-auto mb-4" />
+                            <h3 className="text-xl font-black text-white">Step 3: Cryptographic Provisioning</h3>
+                            <p className="text-sm text-slate-500 max-w-md mx-auto">Generate your institutional Epoch Key. This key is used for Zero-Knowledge PII masking at the edge.</p>
                             
                             {!epochKey ? (
-                                <button onClick={generateKey} className="px-8 py-4 bg-[#E27C37] text-white rounded-xl font-bold hover:bg-[#c96a29] transition shadow-lg">Generate Secure Epoch Key</button>
+                                <button onClick={generateKey} className="px-8 py-4 bg-gradient-to-r from-[#FF4F00] to-orange-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-orange-500/20 transition shadow-lg">Generate Secure Epoch Key</button>
                             ) : (
                                 <div className="space-y-4">
-                                    <div className="p-4 bg-white/80 border-2 border-dashed border-[#E27C37]/40 rounded-xl font-mono text-xs break-all text-[#E27C37] font-black">
+                                    <div className="p-4 bg-white/[0.02] border-2 border-dashed border-[#FF4F00]/30 rounded-xl font-mono text-xs break-all text-[#FF4F00] font-black" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                                         {epochKey}
                                     </div>
-                                    <div className="p-4 bg-orange-500/10 border border-orange-500/30 rounded-xl flex items-start gap-3 text-left">
-                                        <AlertCircle className="w-5 h-5 text-orange-600 shrink-0" />
-                                        <p className="text-[11px] font-bold text-orange-700 leading-tight">
-                                            IMPORTANT: Store this in your Hardware Security Module (HSM). SATARK will never store or transmit this key again. Loss of this key means loss of telemetry history.
+                                    <div className="p-4 bg-orange-500/5 border border-orange-500/15 rounded-xl flex items-start gap-3 text-left">
+                                        <AlertCircle className="w-5 h-5 text-orange-400 shrink-0" />
+                                        <p className="text-[11px] font-bold text-orange-300/80 leading-tight">
+                                            IMPORTANT: Store this in your Hardware Security Module (HSM). DULHAN will never store or transmit this key again. Loss of this key means loss of telemetry history.
                                         </p>
                                     </div>
-                                    <button onClick={() => setStep(4)} className="px-8 py-4 bg-[#121212] text-white rounded-xl font-bold hover:bg-[#2a2a2a] transition">Final Verification</button>
+                                    <button onClick={() => setStep(4)} className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/20 transition">Final Verification</button>
                                 </div>
                             )}
                         </motion.div>
@@ -106,26 +106,26 @@ const BankOnboarding = () => {
 
                     {step === 4 && (
                         <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8 text-center">
-                            <Zap className={`w-20 h-20 mx-auto transition-colors duration-1000 ${isVerified ? 'text-[#006C67]' : 'text-[#121212]/20'}`} />
+                            <Zap className={`w-20 h-20 mx-auto transition-colors duration-1000 ${isVerified ? 'text-cyan-400' : 'text-slate-700'}`} />
                             <div>
-                                <h3 className="text-xl font-black text-[#121212]">Step 4: Synthetic Edge Test</h3>
-                                <p className="text-sm text-[#121212]/60">Triggering a mock transaction from your virtual edge node to verify ingestion handshake.</p>
+                                <h3 className="text-xl font-black text-white">Step 4: Synthetic Edge Test</h3>
+                                <p className="text-sm text-slate-500">Triggering a mock transaction from your virtual edge node to verify ingestion handshake.</p>
                             </div>
 
                             {!isVerified ? (
                                 <button 
                                     onClick={runTest} 
                                     disabled={isTestRunning}
-                                    className="px-10 py-5 bg-[#006C67] text-white rounded-2xl font-black hover:bg-[#005a56] transition shadow-2xl disabled:opacity-50"
+                                    className="px-10 py-5 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-2xl font-black hover:shadow-2xl hover:shadow-cyan-500/20 transition disabled:opacity-50"
                                 >
                                     {isTestRunning ? "Initializing Handshake..." : "Run Synthetic Edge Test"}
                                 </button>
                             ) : (
-                                <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="p-8 bg-[#006C67]/10 border-2 border-[#006C67] rounded-3xl inline-flex flex-col items-center gap-4">
-                                    <ShieldCheck className="w-12 h-12 text-[#006C67]" />
-                                    <p className="text-2xl font-black text-[#006C67]">Connection Verified</p>
-                                    <p className="text-xs font-bold text-[#121212]/60">Institutional ID: GTB-INDIA-01 ACTIVE</p>
-                                    <button onClick={() => window.location.reload()} className="mt-4 text-sm font-bold text-[#121212] underline">Go to Global Nodes</button>
+                                <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="p-8 bg-cyan-500/5 border-2 border-cyan-500/30 rounded-3xl inline-flex flex-col items-center gap-4">
+                                    <ShieldCheck className="w-12 h-12 text-cyan-400" />
+                                    <p className="text-2xl font-black text-cyan-400 text-glow-cyan">Connection Verified</p>
+                                    <p className="text-xs font-bold text-slate-500">Institutional ID: GTB-INDIA-01 ACTIVE</p>
+                                    <button onClick={() => window.location.reload()} className="mt-4 text-sm font-bold text-cyan-400 underline hover:text-cyan-300 transition-colors">Go to Global Nodes</button>
                                 </motion.div>
                             )}
                         </motion.div>
@@ -135,8 +135,5 @@ const BankOnboarding = () => {
         </div>
     );
 };
-
-// Mock Icon because AlertCircle wasn't imported from lucide-react in step 3 (adding it now)
-import { AlertCircle } from 'lucide-react';
 
 export default BankOnboarding;

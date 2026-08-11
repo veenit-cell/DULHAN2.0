@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Search, Download, Building2, AlertTriangle } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { API_URL, getAuthHeaders } from '../lib/api';
 
 const BankWorkspace = () => {
     const [transactions, setTransactions] = useState<any[]>([]);
@@ -11,10 +12,11 @@ const BankWorkspace = () => {
     useEffect(() => {
         const fetchBankData = async () => {
             try {
-                const res = await fetch('http://localhost:8000/transactions');
+                const res = await fetch(`${API_URL}/transactions`, {
+                    headers: getAuthHeaders(),
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
-                // In a real app, we'd filter by the bank's branch code from the token
-                // For the hackathon prototype, we display the bank's telemetry stream
                 setTransactions(data);
                 setLoading(false);
             } catch (error) {

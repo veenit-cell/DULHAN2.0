@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard.tsx';
 import BankLogin from './pages/BankLogin.tsx';
 import BankRegister from './pages/BankRegister.tsx';
 import BankWorkspace from './pages/BankWorkspace.tsx';
-import SatarkFooter from './components/SatarkFooter.tsx';
+import DulhanFooter from './components/DulhanFooter.tsx';
 import Preloader from './components/Preloader.tsx';
 import SmoothScroll from './components/SmoothScroll.tsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,7 +21,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-  const token = localStorage.getItem('satark_token');
+  const token = localStorage.getItem('dulhan_token');
   const userRole = localStorage.getItem('user_role') || 'analyst';
 
   if (!token) {
@@ -84,7 +84,7 @@ const AppContent = () => {
       <main className={!isDashboard ? "pt-24 min-h-screen px-4 md:px-8 relative" : "h-screen w-full overflow-hidden relative"}>
         <AnimatedRoutes />
       </main>
-      {!isDashboard && <SatarkFooter />}
+      {!isDashboard && <DulhanFooter />}
     </div>
   );
 };

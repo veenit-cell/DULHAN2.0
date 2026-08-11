@@ -35,44 +35,49 @@ const RiskBreakdown: React.FC<RiskBreakdownProps> = ({ transaction, onClose, onD
     const totalRisk = riskFactors.reduce((acc, curr) => acc + (curr.weight * curr.value), 0);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/40 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/60 backdrop-blur-sm">
             <motion.div 
                 initial={{ x: '100%', opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: '100%', opacity: 0 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="w-[500px] h-full bg-white/90 backdrop-blur-xl border-l border-white overflow-y-auto shadow-2xl p-8"
+                className="w-[500px] h-full overflow-y-auto shadow-2xl p-8 dark-scrollbar border-l border-white/[0.06]"
+                style={{
+                    background: 'rgba(10, 10, 26, 0.95)',
+                    backdropFilter: 'blur(40px) saturate(1.8)',
+                }}
+                data-lenis-prevent="true"
             >
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h2 className="text-2xl font-black text-[#121212]">Risk Explainer (SHAP)</h2>
-                        <p className="text-[#006C67] uppercase tracking-widest text-[10px] font-bold mt-1">Mathematical Breakdown</p>
+                        <h2 className="text-2xl font-black text-white">Risk Explainer (SHAP)</h2>
+                        <p className="text-cyan-400 uppercase tracking-widest text-[10px] font-bold mt-1">Mathematical Breakdown</p>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full transition-colors">
-                        <X className="w-6 h-6 text-[#121212]" />
+                    <button onClick={onClose} className="p-2 hover:bg-white/[0.06] rounded-full transition-colors">
+                        <X className="w-6 h-6 text-slate-400" />
                     </button>
                 </div>
 
-                <div className="bg-[#121212] rounded-xl p-5 mb-8 text-white">
+                <div className="dark-glass p-5 mb-8">
                     <div className="flex justify-between items-end mb-4">
                         <div>
-                            <p className="text-white/60 text-xs font-bold uppercase tracking-wider mb-1">Composite Risk Score</p>
-                            <h3 className="text-4xl font-black text-[#FF4F00]">R = {totalRisk.toFixed(3)}</h3>
+                            <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Composite Risk Score</p>
+                            <h3 className="text-4xl font-black text-[#FF4F00] text-glow-orange">R = {totalRisk.toFixed(3)}</h3>
                         </div>
                         <div className="text-right">
-                            <p className="text-white/60 text-[10px] font-mono">{transaction?.txn_id}</p>
-                            <span className="inline-block mt-1 px-2 py-0.5 bg-[#BA1200]/20 text-[#BA1200] border border-[#BA1200]/30 rounded text-[10px] font-bold uppercase tracking-wider">
+                            <p className="text-slate-600 text-[10px] font-mono" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{transaction?.txn_id}</p>
+                            <span className="inline-block mt-1 px-2 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded text-[10px] font-bold uppercase tracking-wider">
                                 {transaction?.fraud_pattern || "Anomalous Routing"}
                             </span>
                         </div>
                     </div>
-                    <p className="text-white/50 text-xs font-mono leading-relaxed">
+                    <p className="text-slate-600 text-xs font-mono leading-relaxed" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                         R = 0.30•IF + 0.25•CYCLE + 0.15•BETWEEN + 0.15•CROSS + 0.10•VEL + 0.05•TIME
                     </p>
                 </div>
 
                 <div className="space-y-6">
-                    <h4 className="text-sm font-black text-[#121212] uppercase tracking-wider border-b border-black/10 pb-2">Waterfall Component Analysis</h4>
+                    <h4 className="text-sm font-black text-white uppercase tracking-wider border-b border-white/[0.06] pb-2">Waterfall Component Analysis</h4>
                     
                     {riskFactors.map((factor, idx) => {
                         const contribution = factor.weight * factor.value;
@@ -83,17 +88,17 @@ const RiskBreakdown: React.FC<RiskBreakdownProps> = ({ transaction, onClose, onD
                             <div key={idx} className="relative">
                                 <div className="flex justify-between items-center mb-1.5">
                                     <div className="flex items-center space-x-2">
-                                        <Icon className="w-4 h-4 text-[#006C67]" />
-                                        <span className="text-xs font-bold text-slate-700">{factor.name}</span>
+                                        <Icon className="w-4 h-4 text-cyan-400" />
+                                        <span className="text-xs font-bold text-slate-400">{factor.name}</span>
                                     </div>
                                     <span className="text-xs font-mono font-bold text-[#FF4F00]">+{contribution.toFixed(3)}</span>
                                 </div>
-                                <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                                <div className="w-full bg-white/[0.04] rounded-full h-2.5 overflow-hidden">
                                     <motion.div 
                                         initial={{ width: 0 }}
                                         animate={{ width: `${Math.max(2, percentage)}%` }}
                                         transition={{ duration: 1, delay: idx * 0.1 }}
-                                        className="bg-gradient-to-r from-[#006C67] to-[#FF4F00] h-full rounded-full"
+                                        className="bg-gradient-to-r from-cyan-500 to-[#FF4F00] h-full rounded-full"
                                     />
                                 </div>
                             </div>
@@ -101,15 +106,15 @@ const RiskBreakdown: React.FC<RiskBreakdownProps> = ({ transaction, onClose, onD
                     })}
                 </div>
 
-                <div className="mt-12 pt-6 border-t border-black/10">
+                <div className="mt-12 pt-6 border-t border-white/[0.06]">
                     <button 
                         onClick={onDownloadSTR}
-                        className="w-full flex items-center justify-center space-x-2 bg-[#FF4F00] text-white py-4 rounded-xl font-bold tracking-widest uppercase hover:bg-[#e64700] transition-colors shadow-lg shadow-[#FF4F00]/20"
+                        className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-[#FF4F00] to-orange-600 text-white py-4 rounded-xl font-bold tracking-widest uppercase hover:shadow-lg hover:shadow-[#FF4F00]/20 transition-all"
                     >
                         <FileJson className="w-5 h-5" />
                         <span>Download RBI STR Data (PDF)</span>
                     </button>
-                    <p className="text-center mt-3 text-[10px] text-slate-500 font-medium">
+                    <p className="text-center mt-3 text-[10px] text-slate-600 font-medium">
                         Downloads compliant Suspicious Transaction Report
                     </p>
                 </div>

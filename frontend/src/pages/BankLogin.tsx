@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Key, Building2, Mail, CheckCircle2, ChevronLeft } from 'lucide-react';
+import { API_URL } from '../lib/api';
 
 const BankLogin = () => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const BankLogin = () => {
         setError('');
         
         try {
-            const response = await fetch('http://localhost:8000/api/auth/login', {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ institution_id: institutionId, password })
@@ -40,7 +41,7 @@ const BankLogin = () => {
                 setError(data.detail || "Authentication failed. Please check your credentials.");
             }
         } catch (err) {
-            setError("Network error. Please ensure the Satark Neural API is running.");
+            setError("Network error. Please ensure the Dulhan Neural API is running.");
         } finally {
             setIsLoading(false);
         }
@@ -51,7 +52,7 @@ const BankLogin = () => {
         if (mfaCode.length === 18) {
             setIsLoading(true);
             setTimeout(() => {
-                localStorage.setItem('satark_token', tempAuthData.access_token);
+                localStorage.setItem('dulhan_token', tempAuthData.access_token);
                 localStorage.setItem('user_role', tempAuthData.role);
                 window.dispatchEvent(new Event('auth-change'));
                 navigate('/dashboard');
@@ -86,7 +87,7 @@ const BankLogin = () => {
 
                     <div className="flex justify-center mb-6">
                         <div className="w-20 h-20 rounded-3xl bg-white shadow-xl flex items-center justify-center border border-slate-100 overflow-hidden">
-                            <img src="/logo.png" alt="SATARK Logo" className="w-14 h-14 object-contain" />
+                            <img src="/logo.png" alt="DULHAN Logo" className="w-14 h-14 object-contain" />
                         </div>
                     </div>
                 
@@ -308,7 +309,7 @@ const BankLogin = () => {
                                 </div>
                                 <h2 className="text-3xl font-black text-[#121212] mb-4">Application Received</h2>
                                 <p className="text-sm font-medium text-[#121212]/70 leading-relaxed mb-8">
-                                    Your registration request for SATARK API access has been forwarded to the Central Bank Authority for verification. 
+                                    Your registration request for DULHAN API access has been forwarded to the Central Bank Authority for verification. 
                                     Secure credentials will be generated and emailed to <span className="text-[#FF4F00] font-bold">{regEmail}</span> upon approval.
                                 </p>
                                 <button 

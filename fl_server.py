@@ -10,7 +10,7 @@ def main():
         min_available_clients=2,
     )
 
-    print("Satark Federated Learning Aggregator Node Initialized.")
+    print("Dulhan Federated Learning Aggregator Node Initialized.")
     print("Listening for Bank Edge nodes on 0.0.0.0:8080...")
 
     # Start the server

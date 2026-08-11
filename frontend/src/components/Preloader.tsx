@@ -14,7 +14,7 @@ const Preloader = () => {
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="text-4xl md:text-6xl font-['Playfair_Display'] text-[#121212] tracking-[0.3em] ml-[0.3em] font-bold"
             >
-                SATARK
+                DULHAN
             </motion.h1>
             <motion.div
                 initial={{ opacity: 0 }}

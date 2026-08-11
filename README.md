@@ -1,11 +1,11 @@
-# Satark: Collaborative Fintech Security Platform (Phase 1)
+# Dulhan: Collaborative Fintech Security Platform (Phase 1)
 
-Satark (Hindi for "Alert/Cautious") is a deterministic Fintech and Graph-Networking engine designed to identify anomalous clusters, multi-hop financial fraud, and money laundering (like Smurfing rings) without sharing raw customer data.
+Dulhan (Hindi for "Alert/Cautious") is a deterministic Fintech and Graph-Networking engine designed to identify anomalous clusters, multi-hop financial fraud, and money laundering (like Smurfing rings) without sharing raw customer data.
 
-Instead of dealing with computationally heavy and error-prone ML heuristics like OCR, Satark operates directly on the financial schema level, catching coordinated fraud networks before capital is fully siphoned.
+Instead of dealing with computationally heavy and error-prone ML heuristics like OCR, Dulhan operates directly on the financial schema level, catching coordinated fraud networks before capital is fully siphoned.
 
 ## The Architecture & Workflow
-SATARK operates on a Federated Intelligence Model. Instead of sharing raw customer data, banks connect their localized nodes to a central Neural Kernel that analyzes cryptographic identifiers.
+DULHAN operates on a Federated Intelligence Model. Instead of sharing raw customer data, banks connect their localized nodes to a central Neural Kernel that analyzes cryptographic identifiers.
 
 ### Step-by-Step System Flow:
 1. **Interactive Entry**: Institutional portals featuring cursor-tracking spotlight heuristics for forensic focus.

@@ -4,7 +4,7 @@ bank_a = ["TOKEN1", "TOKEN2", "TOKEN3"]
 bank_b = ["TOKEN3", "TOKEN4", "TOKEN5"]
 
 # Simulate encryption at the edge
-salt = "SATARK_PSI_SALT_2026"
+salt = "DULHAN_PSI_SALT_2026"
 import hashlib
 def encrypt(t):
     return hashlib.sha256((salt + t).encode()).hexdigest()

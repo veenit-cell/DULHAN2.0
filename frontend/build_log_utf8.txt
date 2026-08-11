@@ -30,7 +30,7 @@ imported by
 "src/App.tsx".[31m
 file: [36mC:/Users/Pri
 yanshu Patil/Documents/
-program01/satark/fronte
+program01/dulhan/fronte
 nd/src/App.tsx:15:9[31
 m
 [33m
@@ -49,21 +49,21 @@ ProtectedRouteProps {
     at getRollupError (
 file:///C:/Users/Priyan
 shu%20Patil/Documents/p
-rogram01/satark/fronten
+rogram01/dulhan/fronten
 d/node_modules/rollup/d
 ist/es/shared/parseAst.
 js:402:41)
     at error (file:///C
 :/Users/Priyanshu%20Pat
 il/Documents/program01/
-satark/frontend/node_mo
+dulhan/frontend/node_mo
 dules/rollup/dist/es/sh
 ared/parseAst.js:398:42
 )
     at Module.error (fi
 le:///C:/Users/Priyansh
 u%20Patil/Documents/pro
-gram01/satark/frontend/
+gram01/dulhan/frontend/
 node_modules/rollup/dis
 t/es/shared/node-entry.
 js:17040:16)
@@ -71,7 +71,7 @@ js:17040:16)
 Module.traceVariable (f
 ile:///C:/Users/Priyans
 hu%20Patil/Documents/pr
-ogram01/satark/frontend
+ogram01/dulhan/frontend
 /node_modules/rollup/di
 st/es/shared/node-entry
 .js:17452:29)
@@ -87,7 +87,7 @@ s/rollup/dist/es/shared
 .findVariable (file:///
 C:/Users/Priyanshu%20Pa
 til/Documents/program01
-/satark/frontend/node_m
+/dulhan/frontend/node_m
 odules/rollup/dist/es/s
 hared/node-entry.js:567
 3:38)
@@ -95,7 +95,7 @@ hared/node-entry.js:567
 e.findVariable (file://
 /C:/Users/Priyanshu%20P
 atil/Documents/program0
-1/satark/frontend/node_
+1/dulhan/frontend/node_
 modules/rollup/dist/es/
 shared/node-entry.js:56
 73:38)
@@ -103,7 +103,7 @@ shared/node-entry.js:56
 .findVariable (file:///
 C:/Users/Priyanshu%20Pa
 til/Documents/program01
-/satark/frontend/node_m
+/dulhan/frontend/node_m
 odules/rollup/dist/es/s
 hared/node-entry.js:567
 3:38)
@@ -111,14 +111,14 @@ hared/node-entry.js:567
 e.findVariable (file://
 /C:/Users/Priyanshu%20P
 atil/Documents/program0
-1/satark/frontend/node_
+1/dulhan/frontend/node_
 modules/rollup/dist/es/
 shared/node-entry.js:56
 73:38)
     at Identifier.bind 
 (file:///C:/Users/Priya
 nshu%20Patil/Documents/
-program01/satark/fronte
+program01/dulhan/fronte
 nd/node_modules/rollup/
 dist/es/shared/node-ent
 ry.js:5447:40)[39m

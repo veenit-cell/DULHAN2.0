@@ -47,20 +47,20 @@ const BentoCard: React.FC<BentoCardProps> = ({
 
   return (
     <motion.div
-      className={`relative overflow-hidden h-full bg-white/40 backdrop-blur-xl rounded-[2.5rem] border border-[#FF4F00]/10 group shadow-[0_8px_30px_rgb(255,79,0,0.08)] hover:shadow-[0_8px_40px_rgb(255,79,0,0.2)] transition-all duration-700 ${className}`}
+      className={`relative overflow-hidden h-full bg-[rgba(15,15,35,0.6)] backdrop-blur-xl rounded-[2.5rem] border border-white/[0.06] group shadow-[0_8px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_40px_rgba(255,79,0,0.15)] transition-all duration-700 ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
     >
       <AnimatedGradient colors={colors} speed={0.03} blur="light" />
       <motion.div
-        className="relative z-10 p-8 text-slate-900 h-full flex flex-col justify-end"
+        className="relative z-10 p-8 text-slate-200 h-full flex flex-col justify-end"
         variants={container}
         initial="hidden"
         animate="show"
       >
         <motion.div 
-            className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FF4F00]/5 border border-[#FF4F00]/10 backdrop-blur-md group-hover:scale-110 transition-transform duration-500 shadow-sm shadow-[#FF4F00]/20"
+            className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FF4F00]/10 border border-[#FF4F00]/15 backdrop-blur-md group-hover:scale-110 transition-transform duration-500 shadow-sm shadow-[#FF4F00]/20"
             variants={item}
         >
           {icon}
@@ -68,13 +68,13 @@ const BentoCard: React.FC<BentoCardProps> = ({
         
         <div>
             <motion.h3 
-                className="text-xs font-black uppercase tracking-[0.2em] text-black mb-2" 
+                className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2" 
                 variants={item}
             >
                 {title}
             </motion.h3>
             <motion.p
-                className="text-4xl md:text-5xl font-black mb-4 leading-none tracking-tighter text-[#002A24]"
+                className="text-4xl md:text-5xl font-black mb-4 leading-none tracking-tighter text-white"
                 variants={item}
             >
                 {value}
@@ -98,16 +98,16 @@ const ImpactDashboard: React.FC = () => {
     <div className="w-full bg-transparent py-24 px-6 md:px-12 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6 backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Global Telemetry Live</span>
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6 backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Global Telemetry Live</span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-black text-emerald-600 leading-[0.9] tracking-tight mb-4">
+          <h2 className="text-5xl md:text-6xl font-black text-cyan-400 leading-[0.9] tracking-tight mb-4">
             Platform Impact <br />
-            <span className="text-slate-600 uppercase text-3xl md:text-4xl">Heuristic Performance Suite</span>
+            <span className="text-slate-500 uppercase text-3xl md:text-4xl">Heuristic Performance Suite</span>
           </h2>
           <p className="text-[#FF4F00]/60 font-medium text-lg leading-relaxed">
-            Real-time visual quantification of SATARK's defensive posture across the federated banking network.
+            Real-time visual quantification of DULHAN's defensive posture across the federated banking network.
           </p>
         </div>
       </div>
@@ -185,7 +185,7 @@ const ImpactDashboard: React.FC = () => {
           <BentoCard
             title="Cross-Bank Intersections"
             value="18 High-Risk Overlaps"
-            subtitle="Detected mathematically via PSI (Private Set Intersection) without exposing raw customer PII to the central SATARK kernel."
+            subtitle="Detected mathematically via PSI (Private Set Intersection) without exposing raw customer PII to the central DULHAN kernel."
             colors={["#2C33FF", "#936FAD", "#05040B"]}
             delay={0.8}
             icon={<Shapes className="w-6 h-6 text-[#2C33FF]" />}

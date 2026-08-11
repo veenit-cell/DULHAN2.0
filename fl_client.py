@@ -1,15 +1,15 @@
 import flwr as fl
 import numpy as np
 import sys
-from ml_engine import SATARK_MLEngine
+from ml_engine import DULHAN_MLEngine
 from database import get_neo4j_session
 from audit_logger import write_worm_log
 
-class SatarkBankClient(fl.client.NumPyClient):
+class DulhanBankClient(fl.client.NumPyClient):
     def __init__(self, bank_id):
         super().__init__()
         self.bank_id = bank_id
-        self.ml_engine = SATARK_MLEngine()
+        self.ml_engine = DULHAN_MLEngine()
         # Ensure model exists structurally
         self.ml_engine.train(np.random.rand(10, 3))
 
@@ -60,8 +60,8 @@ if __name__ == "__main__":
     port = sys.argv[1] if len(sys.argv) > 1 else '8080'
     bank_id = sys.argv[2] if len(sys.argv) > 2 else 'BNK-HDFC'
     
-    print(f"Starting Satark FL Edge Node for {bank_id}")
+    print(f"Starting Dulhan FL Edge Node for {bank_id}")
     fl.client.start_client(
         server_address=f"127.0.0.1:{port}",
-        client=SatarkBankClient(bank_id).to_client()
+        client=DulhanBankClient(bank_id).to_client()
     )

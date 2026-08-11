@@ -1,5 +1,5 @@
 {
-  /* Satark Frontend - Phase 1 Finalized */
+  /* Dulhan Frontend - Phase 1 Finalized */
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

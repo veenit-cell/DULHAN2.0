@@ -17,6 +17,7 @@ dist/
 
 # Environment Secrets
 .env
+*.log
 
 # OS / IDE
 .DS_Store

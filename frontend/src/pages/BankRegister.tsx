@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { Shield, Key, Building2, Mail, TerminalSquare } from 'lucide-react';
+import { API_URL } from '../lib/api';
 
 const BankRegister = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const BankRegister = () => {
         setError('');
         
         try {
-            const response = await fetch('http://localhost:8000/api/auth/register', {
+            const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
@@ -37,7 +38,7 @@ const BankRegister = () => {
                 setError(data.detail || "Registration failed. Please try again.");
             }
         } catch (err) {
-            setError("Network error. Please ensure the Satark Neural API is running.");
+            setError("Network error. Please ensure the Dulhan Neural API is running.");
         } finally {
             setIsLoading(false);
         }

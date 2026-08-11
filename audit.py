@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-WORM_LOG_FILE = "satark_audit_worm.log"
+WORM_LOG_FILE = "dulhan_audit_worm.log"
 
 def write_worm_log(event_type: str, details: dict):
     """

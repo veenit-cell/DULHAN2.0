@@ -1,7 +1,7 @@
-# Satark Frontend Portal
-<!-- Satark Frontend - Phase 1 Finalized -->
+# Dulhan Frontend Portal
+<!-- Dulhan Frontend - Phase 1 Finalized -->
 
-This is the React client for the Satark anomaly detection engine. 
+This is the React client for the Dulhan anomaly detection engine. 
 
 ### Technology Stack
 - **Framework:** React + Vite

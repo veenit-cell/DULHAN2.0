@@ -42,7 +42,7 @@ const AboutUs = () => {
                     <div className="w-24 h-1 bg-[#E27C37] mx-auto rounded-full mb-8"></div>
                     
                     <p className="text-sm md:text-base text-[#121212]/70 max-w-2xl mx-auto font-medium leading-relaxed italic">
-                        "To break the silos of modern banking. Satark provides edge-powered, cryptographic threat intelligence, allowing financial institutions to collaboratively destroy multi-hop money laundering networks without compromising user privacy."
+                        "To break the silos of modern banking. Dulhan provides edge-powered, cryptographic threat intelligence, allowing financial institutions to collaboratively destroy multi-hop money laundering networks without compromising user privacy."
                     </p>
                 </motion.div>
 

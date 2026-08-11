@@ -4,238 +4,461 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Application Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e1b4b;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background animated blobs */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: rgba(79, 70, 229, 0.4);
+            top: -100px; left: -100px;
+            border-radius: 50%;
+        }
+        .blob-2 {
+            width: 500px; height: 500px;
+            background: rgba(236, 72, 153, 0.3);
+            bottom: -200px; right: -100px;
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -50px) scale(1.1); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        .glass-container {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            padding: 40px;
+        /* Glassmorphism panel */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
+            padding: 50px 40px;
+            position: absolute;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(30px) scale(0.95);
         }
 
-        h2 {
-            margin-top: 0;
-            color: #333;
+        .glass-panel.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0) scale(1);
+            position: relative;
+        }
+
+        /* Landing Screen */
+        .landing-content {
             text-align: center;
+        }
+        
+        .landing-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .landing-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Form elements */
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
             font-weight: 600;
+            margin: 0 0 10px 0;
+        }
+        
+        .form-header p {
+            color: var(--text-muted);
+            margin: 0;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            position: relative;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            font-size: 0.9rem;
             font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s;
         }
 
         input[type="text"],
         input[type="number"],
         input[type="file"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.6);
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
             box-sizing: border-box;
-            font-size: 16px;
-            color: #333;
-            outline: none;
             transition: all 0.3s ease;
+            font-family: inherit;
         }
 
-        input[type="text"]:focus,
-        input[type="number"]:focus {
-            background: rgba(255, 255, 255, 0.9);
-            border-color: #8c9eff;
-            box-shadow: 0 0 0 2px rgba(140, 158, 255, 0.3);
+        input[type="file"] {
+            padding: 10px;
+            color: var(--text-muted);
+        }
+        
+        input[type="file"]::file-selector-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-right: 15px;
         }
 
-        button {
+        input[type="file"]::file-selector-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+        }
+
+        .form-group:focus-within label {
+            color: var(--primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            padding: 14px;
-            background: #4a6ee0;
+            padding: 16px;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
-            margin-top: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        button:hover {
-            background: #3a5bcf;
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px var(--primary);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
         }
 
-        button:disabled {
-            background: #9faee5;
+        .btn-large {
+            width: auto;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        .btn-large:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+            box-shadow: 0 15px 30px -10px rgba(168, 85, 247, 0.5);
+        }
+
+        .btn:disabled {
+            background: #475569;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
+        /* Feedback messages */
         .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 12px;
             text-align: center;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
             display: none;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
         }
 
         .success {
-            background: rgba(76, 175, 80, 0.2);
-            color: #2e7d32;
-            border: 1px solid rgba(76, 175, 80, 0.3);
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .error {
-            background: rgba(244, 67, 54, 0.2);
-            color: #c62828;
-            border: 1px solid rgba(244, 67, 54, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
-        /* Loading spinner */
+        /* Loading Spinner */
         .spinner {
             display: none;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border: 3px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        .btn-text {
-            display: inline-block;
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: white;
         }
     </style>
 </head>
 <body>
 
-<div class="glass-container">
-    <h2>Institutional Transaction Upload</h2>
-    <form id="applicationForm">
-        <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" required placeholder="John Doe">
-        </div>
-        
-        <div class="form-group">
-            <label for="aadhaar_id">Aadhaar ID</label>
-            <input type="text" id="aadhaar_id" name="aadhaar_id" required placeholder="XXXX-XXXX-XXXX">
-        </div>
-        
-        <div class="form-group">
-            <label for="stated_income">Stated Annual Income (INR)</label>
-            <input type="number" id="stated_income" name="stated_income" required placeholder="45000">
-        </div>
-        
-        <div class="form-group">
-            <label for="bank_account">Bank Account Number</label>
-            <input type="text" id="bank_account" name="bank_account" required placeholder="000123456789">
-        </div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
-        <div class="form-group">
-            <label for="rto_vehicle_reg_number">Vehicle Registration Number (If Any)</label>
-            <input type="text" id="rto_vehicle_reg_number" name="rto_vehicle_reg_number" placeholder="MH-01-AB-1234">
-        </div>
-        
-        <div class="form-group">
-            <label for="income_certificate">Upload Income Certificate (Image)</label>
-            <input type="file" id="income_certificate" name="income_certificate" accept="image/*" required>
-        </div>
-
-        <button type="submit" id="submitBtn">
-            <span class="btn-text">Submit Application</span>
-            <div class="spinner"></div>
-        </button>
-    </form>
+<div class="container">
     
-    <div id="statusMessage" class="message"></div>
+    <!-- Landing View -->
+    <div class="glass-panel active" id="landingView">
+        <div class="landing-content">
+            <h1>Citizen Portal</h1>
+            <p>Secure, fast, and transparent access to institutional services. Start your application process with our next-generation digital portal.</p>
+            <button class="btn btn-large" id="startBtn">Begin Application</button>
+        </div>
+    </div>
+
+    <!-- Application Form View -->
+    <div class="glass-panel" id="formView">
+        <button class="back-btn" id="backBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back
+        </button>
+        
+        <div class="form-header">
+            <h2>Apply Now</h2>
+            <p>Please provide your authentic details.</p>
+        </div>
+
+        <form id="applicationForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="e.g. John Doe">
+            </div>
+            
+            <div class="form-group">
+                <label for="aadhaar_id">Aadhaar ID</label>
+                <input type="text" id="aadhaar_id" name="aadhaar_id" required placeholder="XXXX-XXXX-XXXX">
+            </div>
+            
+            <div class="form-group">
+                <label for="stated_income">Stated Annual Income (INR)</label>
+                <input type="number" id="stated_income" name="stated_income" required placeholder="e.g. 450000">
+            </div>
+            
+            <div class="form-group">
+                <label for="bank_account">Bank Account Number</label>
+                <input type="text" id="bank_account" name="bank_account" required placeholder="Account Number">
+            </div>
+
+            <div class="form-group">
+                <label for="rto_vehicle_reg_number">Vehicle Registration Number (Optional)</label>
+                <input type="text" id="rto_vehicle_reg_number" name="rto_vehicle_reg_number" placeholder="e.g. MH-01-AB-1234">
+            </div>
+            
+            <div class="form-group">
+                <label for="income_certificate">Upload Income Certificate (Image)</label>
+                <input type="file" id="income_certificate" name="income_certificate" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">
+                <span class="btn-text">Submit Application</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+        
+        <div id="statusMessage" class="message"></div>
+    </div>
+
 </div>
 
 <script>
-document.getElementById('applicationForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.querySelector('.btn-text');
-    const spinner = document.querySelector('.spinner');
+    // View switching logic
+    const landingView = document.getElementById('landingView');
+    const formView = document.getElementById('formView');
+    const startBtn = document.getElementById('startBtn');
+    const backBtn = document.getElementById('backBtn');
     const statusMessage = document.getElementById('statusMessage');
-    
-    // UI state loading
-    submitBtn.disabled = true;
-    btnText.style.display = 'none';
-    spinner.style.display = 'block';
-    statusMessage.style.display = 'none';
-    statusMessage.className = 'message';
-    
-    // Prepare data
-    const payloadObject = {
-        name: document.getElementById('name').value,
-        aadhaar_id: document.getElementById('aadhaar_id').value,
-        stated_income: parseFloat(document.getElementById('stated_income').value),
-        bank_account: document.getElementById('bank_account').value,
-        rto_vehicle_reg_number: document.getElementById('rto_vehicle_reg_number').value || "None"
-    };
-    
-    const formData = new FormData();
-    formData.append('payload', JSON.stringify(payloadObject));
-    
-    const fileInput = document.getElementById('income_certificate');
-    if (fileInput.files.length > 0) {
-        formData.append('income_certificate', fileInput.files[0]);
-    }
-    
-    try {
-        const response = await fetch('http://localhost:8000/api/apply', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json();
-        
-        if (response.ok) {
-            statusMessage.textContent = 'Application submitted successfully! Tracking under processing.';
-            statusMessage.classList.add('success');
+
+    startBtn.addEventListener('click', () => {
+        landingView.classList.remove('active');
+        setTimeout(() => {
+            formView.classList.add('active');
+        }, 100);
+    });
+
+    backBtn.addEventListener('click', () => {
+        formView.classList.remove('active');
+        setTimeout(() => {
+            landingView.classList.add('active');
+            statusMessage.classList.remove('show');
             document.getElementById('applicationForm').reset();
-        } else {
-            statusMessage.textContent = result.detail || 'Failed to submit application.';
-            statusMessage.classList.add('error');
+        }, 100);
+    });
+
+    // Form submission logic
+    document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.querySelector('.btn-text');
+        const spinner = document.querySelector('.spinner');
+        
+        // UI state loading
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        spinner.style.display = 'block';
+        statusMessage.classList.remove('show');
+        statusMessage.className = 'message';
+        
+        // Prepare data
+        const payloadObject = {
+            name: document.getElementById('name').value,
+            aadhaar_id: document.getElementById('aadhaar_id').value,
+            stated_income: parseFloat(document.getElementById('stated_income').value),
+            bank_account: document.getElementById('bank_account').value,
+            rto_vehicle_reg_number: document.getElementById('rto_vehicle_reg_number').value || "None"
+        };
+        
+        const formData = new FormData();
+        formData.append('payload', JSON.stringify(payloadObject));
+        
+        const fileInput = document.getElementById('income_certificate');
+        if (fileInput.files.length > 0) {
+            formData.append('income_certificate', fileInput.files[0]);
         }
-    } catch (error) {
-        statusMessage.textContent = 'Network error: Could not connect to the server.';
-        statusMessage.classList.add('error');
-    } finally {
-        // UI state reset
-        statusMessage.style.display = 'block';
-        submitBtn.disabled = false;
-        btnText.style.display = 'inline-block';
-        spinner.style.display = 'none';
-    }
-});
+        
+        try {
+            const response = await fetch('http://localhost:8000/api/apply', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                statusMessage.textContent = 'Application submitted successfully! Tracking under processing.';
+                statusMessage.classList.add('success');
+                document.getElementById('applicationForm').reset();
+            } else {
+                statusMessage.textContent = result.detail || 'Failed to submit application.';
+                statusMessage.classList.add('error');
+            }
+        } catch (error) {
+            statusMessage.textContent = 'Network error: Could not connect to the server.';
+            statusMessage.classList.add('error');
+        } finally {
+            // UI state reset
+            statusMessage.classList.add('show');
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            spinner.style.display = 'none';
+        }
+    });
 </script>
 
 </body>

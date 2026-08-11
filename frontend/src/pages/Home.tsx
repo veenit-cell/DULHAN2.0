@@ -98,13 +98,6 @@ const Home = () => {
                                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                             </span>
                         </Link>
-                        
-                        <Link
-                            to="/about"
-                            className="px-10 py-5 bg-black border border-white/10 text-white rounded-2xl font-black transition-all hover:bg-white/10 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(255,255,255,0.15)] text-lg uppercase tracking-wider backdrop-blur-xl"
-                        >
-                            The Network
-                        </Link>
                     </div>
                 </motion.div>
             </section>
@@ -280,7 +273,7 @@ const Home = () => {
                         <GlowCard glowColor="purple" className="p-8 w-full h-full shadow-none border-none" customSize={true}>
                             <h3 className="text-2xl font-bold text-[#121212] mb-4">Adaptive Neural Scoring</h3>
                             <p className="text-[#121212]/80 font-medium leading-relaxed">
-                                Sophisticated deep-learning models that dynamically adjust weights based on emerging fraud patterns, ensuring SATARK stays ahead of evolving smurfing tactics.
+                                Sophisticated deep-learning models that dynamically adjust weights based on emerging fraud patterns, ensuring DULHAN stays ahead of evolving smurfing tactics.
                             </p>
                         </GlowCard>
                     </div>

@@ -72,7 +72,7 @@ const LiveThreatFeed = () => {
 
             <div 
                 ref={scrollRef}
-                className="flex-grow overflow-y-auto font-mono text-[11px] space-y-2 pr-2 custom-scrollbar scroll-smooth"
+                className="flex-grow overflow-y-auto font-mono text-[11px] space-y-2 pr-2 custom-scrollbar scroll-smooth" data-lenis-prevent="true"
             >
                 <AnimatePresence>
                     {logs.map((log) => (

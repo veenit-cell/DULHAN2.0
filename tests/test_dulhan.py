@@ -7,7 +7,7 @@ import os
 from datetime import datetime, timedelta
 
 # Mock Environment for Tests
-SECRET_KEY = "SATARK_ENTERPRISE_SECRET_KEY_2026"
+SECRET_KEY = "DULHAN_ENTERPRISE_SECRET_KEY_2026"
 EPOCH_KEY = os.urandom(32)
 
 def make_token(account, key):
@@ -29,7 +29,7 @@ def test_unit_plain_sha256_rejection():
     def insecure_hash(acc):
         return hashlib.sha256(str(acc).encode()).hexdigest()
     
-    # In SATARK, we must strictly use HMAC
+    # In DULHAN, we must strictly use HMAC
     # This test simply documents the requirement
     assert insecure_hash("test") != make_token("test", EPOCH_KEY)
 

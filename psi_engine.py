@@ -8,7 +8,7 @@ class PSIEngine:
     For this enterprise simulation, we use salted SHA-256 to represent 'ciphertexts'.
     """
     
-    def __init__(self, salt: str = "SATARK_PSI_SALT_2026"):
+    def __init__(self, salt: str = "DULHAN_PSI_SALT_2026"):
         self.salt = salt
 
     def encrypt_set(self, tokens: list) -> list:

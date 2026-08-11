@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { LogIn, AlertCircle } from 'lucide-react';
+import { API_URL } from '../lib/api';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -20,7 +21,7 @@ const Login = () => {
         formData.append('password', password);
 
         try {
-            const res = await fetch('http://localhost:8000/api/login', {
+            const res = await fetch(`${API_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: formData.toString()
@@ -55,7 +56,7 @@ const Login = () => {
                         <LogIn className="w-8 h-8" />
                     </div>
                     <h2 className="text-2xl font-bold text-[#121212]">Infrastructure Access</h2>
-                    <p className="text-sm text-[#121212]/80 font-medium mt-2">Connect to the Satark Neural Engine</p>
+                    <p className="text-sm text-[#121212]/80 font-medium mt-2">Connect to the Dulhan Neural Engine</p>
                 </div>
 
                 {error && (

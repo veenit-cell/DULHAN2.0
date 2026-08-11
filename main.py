@@ -4,45 +4,52 @@ from pydantic import BaseModel
 import sqlite3
 import os
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from typing import Optional, List
 from audit_logger import write_worm_log
 from database import get_neo4j_session
+from acquisition_agent import acquisition_agent
+from adoption_agent import adoption_agent
+from engagement_agent import engagement_agent
 import hmac
 import hashlib
-import pytest
 import io
 from contextlib import redirect_stdout
 import sys
+from dotenv import load_dotenv
 
-SECRET_KEY = "SATARK_ENTERPRISE_SCALE_KEY_2026"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 # Strict 1-hour window for enterprise sessions
-ISSUER = "satark.neural.core"
+load_dotenv()
+
+SECRET_KEY = os.environ.get("SECRET_KEY", "CHANGE_ME_IN_DOTENV")
+HMAC_SECRET = os.environ.get("HMAC_SECRET", "CHANGE_ME_IN_DOTENV")
+ALGORITHM = os.environ.get("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+ISSUER = os.environ.get("ISSUER", "dulhan.neural.core")
 
 def verify_payload_hmac(payload_dict: dict, provided_hmac: str) -> bool:
     # Remove hmac field for validation
     data = payload_dict.copy()
     data.pop('payload_hmac', None)
     data_str = json.dumps(data, sort_keys=True)
-    calculated_hmac = hmac.new(SECRET_KEY.encode(), data_str.encode(), hashlib.sha256).hexdigest()
+    calculated_hmac = hmac.new(HMAC_SECRET.encode(), data_str.encode(), hashlib.sha256).hexdigest()
     return hmac.compare_digest(calculated_hmac, provided_hmac)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-app = FastAPI(title="Satark Neural API")
+app = FastAPI(title="Dulhan Neural API")
 
+cors_origins = os.environ.get("CORS_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
-DB_NAME = "fintech_threat_db.sqlite"
+DB_NAME = os.environ.get("SQLITE_DB", "fintech_threat_db.sqlite")
 
 def get_db():
     conn = sqlite3.connect(DB_NAME)
@@ -86,11 +93,11 @@ def verify_password(plain_password, hashed_password):
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
-    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
+    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=15))
     to_encode.update({
         "exp": expire,
         "iss": ISSUER,
-        "iat": datetime.utcnow()
+        "iat": datetime.now(timezone.utc)
     })
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -134,7 +141,7 @@ def psi_intersect(req: PSIRequest, current_institution: dict = Depends(get_curre
 
 @app.get("/")
 def health_check():
-    return {"status": "Satark API is live", "version": "1.3"}
+    return {"status": "Dulhan API is live", "version": "1.3"}
 
 @app.post("/api/auth/register")
 def register_institution(inst: InstitutionRegister):
@@ -264,8 +271,127 @@ def ingest_transaction(payload: EdgePayloadV12, current_institution: dict = Depe
     })
 
     import tasks
-    tasks.process_edge.delay(payload.dict())
-    return {"status": "accepted", "message": "Transaction queued", "schema": "v1.3"}
+    result = tasks.ingest_edge.delay(payload.dict())
+    return {
+        "status": "accepted",
+        "message": "Transaction queued",
+        "schema": "v1.3",
+        "task_id": result.id,
+    }
+
+# ===========================================================================
+#  AGENTIC AI ENDPOINTS — Pillar 1: Customer Acquisition
+# ===========================================================================
+
+class ChatMessage(BaseModel):
+    session_id: str
+    message: str
+
+@app.post("/api/agent/acquire/start")
+def start_acquisition_session():
+    """Start a new conversational onboarding session with the AI agent."""
+    result = acquisition_agent.start_session()
+    return result
+
+@app.post("/api/agent/acquire/chat")
+def acquisition_chat(msg: ChatMessage):
+    """Send a message to the acquisition agent and get AI response."""
+    result = acquisition_agent.chat(msg.session_id, msg.message)
+    if "error" in result:
+        raise HTTPException(status_code=404, detail=result["error"])
+    return result
+
+@app.get("/api/agent/acquire/leads")
+def get_acquisition_leads(stage: Optional[str] = None):
+    """Get scored/qualified leads, optionally filtered by stage."""
+    return acquisition_agent.get_leads(stage)
+
+@app.get("/api/agent/acquire/pipeline")
+def get_acquisition_pipeline():
+    """Get acquisition funnel statistics."""
+    return acquisition_agent.get_pipeline_stats()
+
+@app.post("/api/agent/acquire/onboard")
+def trigger_onboarding(lead_id: str):
+    """Trigger onboarding for a qualified lead."""
+    db = get_db()
+    try:
+        db.execute("UPDATE acquisition_leads SET stage = 'onboarded', updated_at = ? WHERE lead_id = ?",
+                   (datetime.now(timezone.utc).isoformat(), lead_id))
+        db.commit()
+        return {"status": "success", "message": f"Lead {lead_id} moved to onboarded"}
+    finally:
+        db.close()
+
+@app.get("/api/agent/acquire/analytics")
+def get_acquisition_analytics():
+    """Get acquisition analytics dashboard data."""
+    return acquisition_agent.get_analytics()
+
+
+# ===========================================================================
+#  AGENTIC AI ENDPOINTS — Pillar 2: Digital Adoption
+# ===========================================================================
+
+@app.get("/api/agent/adopt/recommendations/{customer_id}")
+def get_adoption_recommendations(customer_id: str):
+    """Get personalized product recommendations for a customer."""
+    result = adoption_agent.get_recommendations(customer_id)
+    if "error" in result:
+        raise HTTPException(status_code=404, detail=result["error"])
+    return result
+
+@app.get("/api/agent/adopt/nudges")
+def get_adoption_nudges(limit: int = 20):
+    """Get active AI-driven adoption nudges."""
+    return adoption_agent.get_active_nudges(limit)
+
+@app.get("/api/agent/adopt/journey/{customer_id}")
+def get_adoption_journey(customer_id: str):
+    """Get adaptive adoption journey for a customer."""
+    result = adoption_agent.get_adoption_journey(customer_id)
+    if "error" in result:
+        raise HTTPException(status_code=404, detail=result["error"])
+    return result
+
+@app.get("/api/agent/adopt/analytics")
+def get_adoption_analytics():
+    """Get adoption metrics — funnel, conversion per product, heatmap data."""
+    return adoption_agent.get_analytics()
+
+
+# ===========================================================================
+#  AGENTIC AI ENDPOINTS — Pillar 3: Digital Engagement
+# ===========================================================================
+
+@app.get("/api/agent/engage/events")
+def get_engagement_events(limit: int = 30, event_type: Optional[str] = None):
+    """Get detected life events and AI triggers."""
+    return engagement_agent.get_events(limit, event_type)
+
+@app.get("/api/agent/engage/campaigns")
+def get_engagement_campaigns():
+    """Get active engagement campaigns."""
+    return engagement_agent.get_campaigns()
+
+@app.post("/api/agent/engage/interact/{customer_id}")
+def trigger_engagement_interaction(customer_id: str):
+    """Trigger proactive AI interaction for a customer."""
+    result = engagement_agent.generate_interaction(customer_id)
+    if "error" in result:
+        raise HTTPException(status_code=404, detail=result["error"])
+    return result
+
+@app.get("/api/agent/engage/health")
+def get_engagement_health():
+    """Get customer engagement health dashboard."""
+    return engagement_agent.get_engagement_health()
+
+@app.get("/api/agent/engage/analytics")
+def get_engagement_analytics():
+    """Get comprehensive engagement analytics."""
+    return engagement_agent.get_analytics()
+
 
 if __name__ == "__main__":
     import uvicorn
